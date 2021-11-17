@@ -1,9 +1,8 @@
 package br.com.alison.purchases;
 
-import br.com.alison.purchases.domain.Category;
-import br.com.alison.purchases.domain.Product;
-import br.com.alison.purchases.repository.CategoryRepository;
-import br.com.alison.purchases.repository.ProductRepository;
+import br.com.alison.purchases.domain.*;
+import br.com.alison.purchases.domain.enums.ClientType;
+import br.com.alison.purchases.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +18,18 @@ public class PurchasesApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private StateRepository stateRepository;
+
+	@Autowired
+	private CityRepository cityRepository;
+
+	@Autowired
+	private AddressRepository addressRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PurchasesApplication.class, args);
@@ -42,5 +53,32 @@ public class PurchasesApplication implements CommandLineRunner {
 
 		categoryRepository.saveAll(Arrays.asList(category_1, category_2));
 		productRepository.saveAll(Arrays.asList(product_1, product_2, product_3));
+
+		State state_1 = new State(null, "Minas Gerais");
+		State state_2 = new State(null, "São Paulo");
+
+		City city_1 = new City(null, "Uberlândia", state_1);
+		City city_2 = new City(null, "São Paulo", state_2);
+		City city_3 = new City(null, "Campinas", state_2);
+
+		state_1.getCities().addAll(Arrays.asList(city_1));
+		state_2.getCities().addAll(Arrays.asList(city_2, city_3));
+
+		stateRepository.saveAll(Arrays.asList(state_1, state_2));
+		cityRepository.saveAll(Arrays.asList(city_1, city_2, city_3));
+
+		Client client_1 = new Client(null,"Maria Silva", "maria@ex.com", "36378912377", ClientType.LEGAL_PERSON);
+		client_1.getPhoneNumbers().addAll(Arrays.asList("27363323", "93838393"));
+
+		Address address_1 = new Address(null, "Rua Flores", "300", "Apt 203", "Jardim", "38220834", client_1, city_1);
+		Address address_2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38220834", client_1, city_2);
+
+		client_1.getAdresses().addAll(Arrays.asList(address_1, address_2));
+
+		clientRepository.saveAll(Arrays.asList(client_1));
+		addressRepository.saveAll(Arrays.asList(address_1, address_2));
+
+		Order order_1 = new Order();
+
 	}
 }

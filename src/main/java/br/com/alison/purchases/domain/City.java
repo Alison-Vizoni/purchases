@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Category implements Serializable {
+@Table
+public class City implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -20,15 +19,17 @@ public class Category implements Serializable {
     private String name;
 
     @JsonManagedReference
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "id_state")
+    private State state;
 
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    public City() {
     }
 
-    public Category() {
+    public City(Long id, String name, State state) {
+        this.id = id;
+        this.name = name;
+        this.state = state;
     }
 
     public Long getId() {
@@ -47,20 +48,20 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public State getState() {
+        return state;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setState(State state) {
+        this.state = state;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        City city = (City) o;
+        return Objects.equals(id, city.id);
     }
 
     @Override
