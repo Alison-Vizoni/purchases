@@ -9,12 +9,12 @@ import java.util.Objects;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Payment implements Serializable {
+public abstract class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
-    private PaymentStatus status;
+    private Long status;
 
     @OneToOne
     @JoinColumn(name = "id_order")
@@ -26,7 +26,7 @@ public class Payment implements Serializable {
 
     public Payment(Long id, PaymentStatus status, Order order) {
         this.id = id;
-        this.status = status;
+        this.status = status.getCode();
         this.order = order;
     }
 
@@ -39,11 +39,11 @@ public class Payment implements Serializable {
     }
 
     public PaymentStatus getStatus() {
-        return status;
+        return PaymentStatus.toEnum(status);
     }
 
     public void setStatus(PaymentStatus status) {
-        this.status = status;
+        this.status = status.getCode();
     }
 
     public Order getOrder() {

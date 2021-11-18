@@ -15,9 +15,9 @@ public class ClientService {
     private ClientRepository repositry;
 
     public Client findClientById(Long id){
-        Optional<Client> category = repositry.findById(id);
+        Optional<Client> client = repositry.findById(id);
 
-        return category.orElseThrow(() -> new ObjectNotFoundException(new StringBuilder()
+        return client.orElseThrow(() -> new ObjectNotFoundException(new StringBuilder()
                 .append("Object not found! Id: ")
                 .append(id)
                 .append(", type: ")

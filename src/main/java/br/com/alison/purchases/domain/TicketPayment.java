@@ -3,9 +3,11 @@ package br.com.alison.purchases.domain;
 import br.com.alison.purchases.domain.enums.PaymentStatus;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table
 public class TicketPayment extends Payment{
 
     private Date dueDate;
@@ -14,8 +16,8 @@ public class TicketPayment extends Payment{
     public TicketPayment() {
     }
 
-    public TicketPayment(Long id, PaymentStatus status, Order payment, Date dueDate, Date paymentDate) {
-        super(id, status, payment);
+    public TicketPayment(Long id, PaymentStatus status, Order order, Date dueDate, Date paymentDate) {
+        super(id, status, order);
         this.dueDate = dueDate;
         this.paymentDate = paymentDate;
     }

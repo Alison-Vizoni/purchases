@@ -2,13 +2,10 @@ package br.com.alison.purchases.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
-@Table
+@Table(name = "order_table")
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -20,11 +17,8 @@ public class Order implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 
-//    @ManyToMany
-//    @JoinTable(name = "order_product",
-//            joinColumns = @JoinColumn(name = "id_order"),
-//            inverseJoinColumns = @JoinColumn(name = "id_product"))
-//    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "id_client")
@@ -37,12 +31,19 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, Date instant, Payment payment, Client client, Address deliveryAddress) {
+    public Order(Long id, Date instant, Client client, Address deliveryAddress) {
         this.id = id;
         this.instant = instant;
-        this.payment = payment;
         this.client = client;
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public List<Order> getOrders(){
+        List<Order> orderList = new ArrayList<>();
+        for (OrderItem orderItem: items) {
+            orderList.add(orderItem.getOrder());
+        }
+        return orderList;
     }
 
     public Long getId() {
@@ -69,14 +70,6 @@ public class Order implements Serializable {
         this.payment = payment;
     }
 
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
-
     public Client getClient() {
         return client;
     }
@@ -91,6 +84,14 @@ public class Order implements Serializable {
 
     public void setDeliveryAddress(Address deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     @Override
