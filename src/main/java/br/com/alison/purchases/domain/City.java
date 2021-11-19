@@ -1,7 +1,5 @@
 package br.com.alison.purchases.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -18,7 +16,6 @@ public class City implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "id_state")
     private State state;

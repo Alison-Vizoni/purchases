@@ -1,7 +1,6 @@
 package br.com.alison.purchases.domain;
 
 import br.com.alison.purchases.domain.enums.PaymentStatus;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 

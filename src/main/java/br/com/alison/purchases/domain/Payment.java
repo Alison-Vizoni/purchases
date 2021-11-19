@@ -1,6 +1,7 @@
 package br.com.alison.purchases.domain;
 
 import br.com.alison.purchases.domain.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public abstract class Payment implements Serializable {
     private Long id;
     private Long status;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "id_order")
     @MapsId

@@ -1,7 +1,7 @@
 package br.com.alison.purchases.domain;
 
 import br.com.alison.purchases.domain.enums.ClientType;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +20,6 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Long clientType;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Address> adresses = new ArrayList<>();
 
@@ -28,6 +27,7 @@ public class Client implements Serializable {
     @CollectionTable(name = "phone")
     private Set<String> phoneNumbers = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
