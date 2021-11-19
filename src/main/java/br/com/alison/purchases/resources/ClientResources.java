@@ -17,7 +17,7 @@ public class ClientResources {
     private ClientService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    public ResponseEntity<Client> findById(@PathVariable Long id){
         Client client = service.findClientById(id);
         return ResponseEntity.ok().body(client);
     }
