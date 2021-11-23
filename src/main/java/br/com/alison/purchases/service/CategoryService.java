@@ -1,6 +1,7 @@
 package br.com.alison.purchases.service;
 
 import br.com.alison.purchases.domain.Category;
+import br.com.alison.purchases.domain.Client;
 import br.com.alison.purchases.dto.CategoryDTO;
 import br.com.alison.purchases.repository.CategoryRepository;
 import br.com.alison.purchases.service.exceptions.DataIntegrityException;
@@ -37,8 +38,9 @@ public class CategoryService {
     }
 
     public Category update(Category category) {
-        findCategoryById(category.getId());
-        return repositry.save(category);
+        Category newCategory = findCategoryById(category.getId());
+        updateData(newCategory, category);
+        return repositry.save(newCategory);
     }
 
     public void delete(Long id) {
@@ -61,5 +63,9 @@ public class CategoryService {
 
     public Category fromDTO(CategoryDTO categoryDTO){
         return new Category(categoryDTO.getId(), categoryDTO.getName());
+    }
+
+    private void updateData(Category newCategory, Category category) {
+        newCategory.setName(category.getName());
     }
 }
