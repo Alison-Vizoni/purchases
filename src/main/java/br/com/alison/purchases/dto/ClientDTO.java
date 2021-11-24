@@ -1,11 +1,13 @@
 package br.com.alison.purchases.dto;
 
 import br.com.alison.purchases.domain.Client;
+import br.com.alison.purchases.service.validation.ClientUpdate;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+@ClientUpdate
 public class ClientDTO {
 
     private Long id;
