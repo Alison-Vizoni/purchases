@@ -20,7 +20,7 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Long clientType;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> adresses = new ArrayList<>();
 
     @ElementCollection
