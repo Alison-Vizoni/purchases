@@ -50,20 +50,48 @@ public class PurchasesApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Category category_1 = new Category(null, "Computing");
 		Category category_2 = new Category(null, "Office");
+		Category category_3 = new Category(null, "clothing bed and bath");
+		Category category_4 = new Category(null, "Eletronic");
+		Category category_5 = new Category(null, "Garden");
+		Category category_6 = new Category(null, "Decor");
+		Category category_7 = new Category(null, "Perfumery");
 
 		Product product_1 = new Product(null, "Computer", 2000.00);
 		Product product_2 = new Product(null, "printer", 800.00);
 		Product product_3 = new Product(null, "Mouse", 80.00);
+		Product product_4 = new Product(null, "Office table", 80.00);
+		Product product_5 = new Product(null, "Towel", 80.00);
+		Product product_6 = new Product(null, "Quilt", 80.00);
+		Product product_7 = new Product(null, "TV", 80.00);
+		Product product_8 = new Product(null, "Cutter", 80.00);
+		Product product_9 = new Product(null, "lampshade", 80.00);
+		Product product_10 = new Product(null, "Pen", 80.00);
+		Product product_11 = new Product(null, "Shampoo", 80.00);
 
 		category_1.getProducts().addAll(Arrays.asList(product_1, product_2, product_3));
-		category_2.getProducts().addAll(Arrays.asList(product_2));
+		category_2.getProducts().addAll(Arrays.asList(product_2, product_4));
+		category_3.getProducts().addAll(Arrays.asList(product_5, product_6));
+		category_4.getProducts().addAll(Arrays.asList(product_1, product_2, product_3, product_7));
+		category_5.getProducts().addAll(Arrays.asList(product_8));
+		category_6.getProducts().addAll(Arrays.asList(product_9, product_10));
+		category_7.getProducts().addAll(Arrays.asList(product_11));
 
-		product_1.getCategories().addAll(Arrays.asList(category_1));
-		product_2.getCategories().addAll(Arrays.asList(category_1, category_2));
-		product_3.getCategories().addAll(Arrays.asList(category_1));
+		product_1.getCategories().addAll(Arrays.asList(category_1, category_4));
+		product_2.getCategories().addAll(Arrays.asList(category_1, category_2, category_4));
+		product_3.getCategories().addAll(Arrays.asList(category_1, category_4));
+		product_4.getCategories().addAll(Arrays.asList(category_2));
+		product_5.getCategories().addAll(Arrays.asList(category_3));
+		product_6.getCategories().addAll(Arrays.asList(category_3));
+		product_7.getCategories().addAll(Arrays.asList(category_4));
+		product_8.getCategories().addAll(Arrays.asList(category_5));
+		product_9.getCategories().addAll(Arrays.asList(category_6));
+		product_10.getCategories().addAll(Arrays.asList(category_6));
+		product_11.getCategories().addAll(Arrays.asList(category_7));
 
-		categoryRepository.saveAll(Arrays.asList(category_1, category_2));
-		productRepository.saveAll(Arrays.asList(product_1, product_2, product_3));
+		categoryRepository.saveAll(Arrays.asList(category_1, category_2, category_3, category_4, category_5, category_6,
+				category_7));
+		productRepository.saveAll(Arrays.asList(product_1, product_2, product_3, product_4, product_5, product_6, product_7,
+		 		product_8, product_9, product_10, product_11));
 
 		State state_1 = new State(null, "Minas Gerais");
 		State state_2 = new State(null, "São Paulo");
