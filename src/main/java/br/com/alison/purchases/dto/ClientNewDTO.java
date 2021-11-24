@@ -1,22 +1,47 @@
 package br.com.alison.purchases.dto;
 
+import br.com.alison.purchases.service.validation.ClientInsert;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@ClientInsert
 public class ClientNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "Name is required")
+    @Length(min=3, max=255, message = "Size must be between 3 and 255")
     private String name;
+
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email")
     private String email;
+
+    @NotEmpty(message = "CPF or CNPJ is required")
     private String cpfOrCnpj;
+
     private Long clientType;
+
+    @NotEmpty(message = "Street is required")
     private String street;
+
+    @NotEmpty(message = "Number is required")
     private String number;
+
     private String complement;
+
     private String district;
+
+    @NotEmpty(message = "Post code is required")
     private String postCode;
 
     private String landline;
+
+    @NotEmpty(message = "Phone number is required")
     private String phoneNumber;
+
     private String secondPhoneNumber;
 
     private Long idCity;
