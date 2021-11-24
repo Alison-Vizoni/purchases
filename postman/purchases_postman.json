@@ -6,25 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "list all categories",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/categories",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"categories"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "list all categories with paginator",
 			"request": {
 				"method": "GET",
@@ -52,6 +33,36 @@
 						{
 							"key": "direction",
 							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list all products with paginator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products/?name=o&categories=1,4,7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "o"
+						},
+						{
+							"key": "categories",
+							"value": "1,4,7"
 						}
 					]
 				}
@@ -91,7 +102,7 @@
 			"response": []
 		},
 		{
-			"name": "insert category",
+			"name": "insert-findAll categories",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -151,13 +162,13 @@
 			"response": []
 		},
 		{
-			"name": "insert client",
+			"name": "insert-findAll client",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Pedro\",\n    \"email\": \"pedro@gmail.com\",\n    \"cpfOrCnpj\": \"12345678998\",\n    \"clientType\": 1,\n    \"street\": \"rua dos testes\",\n    \"number\": \"12\",\n    \"complement\": \"não tem\",\n    \"district\": \"Lugar\",\n    \"postCode\": \"88025466\",\n    \"landline\": \"\",\n    \"phoneNumber\": \"999554466\",\n    \"secondPhoneNumber\": \"\",\n    \"idCity\": 1\n}",
+					"raw": "{\n    \"name\": \"Pedro\",\n    \"email\": \"pedro@gmail.com\",\n    \"cpfOrCnpj\": \"42115547004\",\n    \"clientType\": 1,\n    \"street\": \"rua dos testes\",\n    \"number\": \"12\",\n    \"complement\": \"não tem\",\n    \"district\": \"Lugar\",\n    \"postCode\": \"88025466\",\n    \"landline\": \"\",\n    \"phoneNumber\": \"999554466\",\n    \"secondPhoneNumber\": \"\",\n    \"idCity\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
