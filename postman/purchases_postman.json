@@ -130,7 +130,7 @@
 			"response": []
 		},
 		{
-			"name": "find-delete-update client",
+			"name": "find-delete-update client by id",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -156,6 +156,66 @@
 					"path": [
 						"clients",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find-delete-update order by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/orders/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert-findAll orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client\" : {\"id\" : 1},\n    \"deliveryAddress\" : {\"id\" : 1},\"payment\" : {\n    \"installmentsNumber\" : 10,\n    \"@type\": \"cardPayment\"\n},\n    \"items\" : [\n        {\n        \"quantity\" : 2,\n        \"product\" : {\"id\" : 3}\n        },\n        {\n        \"quantity\" : 1,\n        \"product\" : {\"id\" : 1}\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"orders"
 					]
 				}
 			},
