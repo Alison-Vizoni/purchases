@@ -2,6 +2,7 @@ package br.com.alison.purchases.domain;
 
 import br.com.alison.purchases.domain.enums.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table
+@JsonTypeName("ticketPayment")
 public class TicketPayment extends Payment{
 
     @JsonFormat(pattern = "dd/MM/yyyy")
