@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "order_table")
@@ -42,12 +43,8 @@ public class Order implements Serializable {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public List<Order> getOrders(){
-        List<Order> orderList = new ArrayList<>();
-        for (OrderItem orderItem: items) {
-            orderList.add(orderItem.getOrder());
-        }
-        return orderList;
+    public double getTotalValue(){
+        return items.stream().mapToDouble(OrderItem::getSubTotal).sum();
     }
 
     public Long getId() {

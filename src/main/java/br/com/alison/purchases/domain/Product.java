@@ -30,11 +30,19 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    @JsonIgnore
     public Product(Long id, String name, Double price) {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    @JsonIgnore
+    public List<Order> getOrders(){
+        List<Order> orderList = new ArrayList<>();
+        for (OrderItem orderItem: items) {
+            orderList.add(orderItem.getOrder());
+        }
+        return orderList;
     }
 
     public Long getId() {
