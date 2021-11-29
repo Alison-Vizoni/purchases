@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.mail.internet.MimeMessage;
+
 public class SmtpEmailService extends AbstractEmailService{
 
     @Autowired
@@ -21,6 +23,14 @@ public class SmtpEmailService extends AbstractEmailService{
         LOG.info("Enviando email...");
         javaMailSender.setPassword(dotenv.get("PASSWORD"));
         javaMailSender.send(simpleMailMessage);
+        LOG.info("Email enviado.");
+    }
+
+    @Override
+    public void sendHtmlEmail(MimeMessage mimeMessage) {
+        LOG.info("Enviando email...");
+        javaMailSender.setPassword(dotenv.get("PASSWORD"));
+        javaMailSender.send(mimeMessage);
         LOG.info("Email enviado.");
     }
 }
