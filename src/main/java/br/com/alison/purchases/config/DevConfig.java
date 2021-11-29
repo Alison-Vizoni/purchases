@@ -1,6 +1,8 @@
 package br.com.alison.purchases.config;
 
 import br.com.alison.purchases.service.DBService;
+import br.com.alison.purchases.service.EmailService;
+import br.com.alison.purchases.service.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,5 +29,10 @@ public class DevConfig {
         }
         dbService.instantianceTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
     }
 }
