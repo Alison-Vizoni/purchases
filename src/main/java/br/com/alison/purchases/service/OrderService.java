@@ -30,6 +30,9 @@ public class OrderService {
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private ClientService clientService;
+
     public Order findOrderById(Long id){
         Optional<Order> order = repositry.findById(id);
 
@@ -44,6 +47,7 @@ public class OrderService {
     public Order insert(Order order) {
         order.setId(null);
         order.setInstant(new Date());
+        order.setClient(clientService.findClientById(order.getClient().getId()));
         order.getPayment().setStatus(PaymentStatus.PENDING);
         order.getPayment().setOrder(order);
 
@@ -60,7 +64,6 @@ public class OrderService {
             orderItem.setOrder(order);
         }
         orderItemRepository.saveAll(order.getItems());
-
         return order;
     }
 }
