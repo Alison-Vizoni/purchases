@@ -1,6 +1,8 @@
 package br.com.alison.purchases.config;
 
 import br.com.alison.purchases.service.DBService;
+import br.com.alison.purchases.service.EmailService;
+import br.com.alison.purchases.service.MockEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +21,10 @@ public class TestConfig {
     public boolean instantianteDatabase() throws ParseException {
         dbService.instantianceTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new MockEmailService();
     }
 }
