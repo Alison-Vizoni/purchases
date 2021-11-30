@@ -1,14 +1,17 @@
 package br.com.alison.purchases.service;
 
-import br.com.alison.purchases.domain.Order;
-import br.com.alison.purchases.domain.OrderItem;
-import br.com.alison.purchases.domain.TicketPayment;
+import br.com.alison.purchases.domain.*;
 import br.com.alison.purchases.domain.enums.PaymentStatus;
 import br.com.alison.purchases.repository.OrderItemRepository;
 import br.com.alison.purchases.repository.OrderRepository;
 import br.com.alison.purchases.repository.PaymentRepository;
+import br.com.alison.purchases.security.UserSpringSecurity;
+import br.com.alison.purchases.service.exceptions.AuthorizationException;
 import br.com.alison.purchases.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,5 +72,15 @@ public class OrderService {
         orderItemRepository.saveAll(order.getItems());
         emailService.sendOrderConfirmationHtmlEmail(order);
         return order;
+    }
+
+    public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSpringSecurity userSpringSecurity = UserService.authenticaded();
+        if(userSpringSecurity == null){
+            throw new AuthorizationException("Access denied");
+        }
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Client client = clientService.findClientById(userSpringSecurity.getId());
+        return repositry.findByClient(client, pageRequest);
     }
 }
