@@ -3,6 +3,7 @@ package br.com.alison.purchases.service;
 import br.com.alison.purchases.domain.*;
 import br.com.alison.purchases.domain.enums.ClientType;
 import br.com.alison.purchases.domain.enums.PaymentStatus;
+import br.com.alison.purchases.domain.enums.Profile;
 import br.com.alison.purchases.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -108,15 +109,23 @@ public class DBService {
                 ClientType.LEGAL_PERSON, passwordEncoder.encode("potato"));
         client_1.getPhoneNumbers().addAll(Arrays.asList("27363323", "93838393"));
 
+        Client client_2 = new Client(null,"Ana Sauro", "gabreilfake@gmail.com", "32804776034",
+                ClientType.LEGAL_PERSON, passwordEncoder.encode("watermelon"));
+        client_2.addProfile(Profile.ADMIN);
+        client_1.getPhoneNumbers().addAll(Arrays.asList("24563323", "88838344"));
+
         Address address_1 = new Address(null, "Rua Flores", "300", "Apt 203",
                 "Jardim", "38220834", client_1, city_1);
         Address address_2 = new Address(null, "Avenida Matos", "105", "Sala 800",
                 "Centro", "38220834", client_1, city_2);
+        Address address_3 = new Address(null, "Avenida torres", "17", "casa 5",
+                "Centro", "38220444", client_2, city_2);
 
         client_1.getAdresses().addAll(Arrays.asList(address_1, address_2));
+        client_2.getAdresses().addAll(Arrays.asList(address_3));
 
-        clientRepository.saveAll(Arrays.asList(client_1));
-        addressRepository.saveAll(Arrays.asList(address_1, address_2));
+        clientRepository.saveAll(Arrays.asList(client_1, client_2));
+        addressRepository.saveAll(Arrays.asList(address_1, address_2, address_3));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
