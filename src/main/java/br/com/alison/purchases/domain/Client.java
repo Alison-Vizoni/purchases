@@ -20,6 +20,9 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Long clientType;
 
+    @JsonIgnore
+    private String password;
+
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Address> adresses = new ArrayList<>();
 
@@ -34,12 +37,13 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(Long id, String name, String email, String cpfOrCnpj, ClientType clientType) {
+    public Client(Long id, String name, String email, String cpfOrCnpj, ClientType clientType, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
         this.clientType = (clientType == null) ? null : clientType.getCode();
+        this.password = password;
     }
 
     public Long getId() {
@@ -104,6 +108,18 @@ public class Client implements Serializable {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void setClientType(Long clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

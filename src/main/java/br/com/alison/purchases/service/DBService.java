@@ -5,6 +5,7 @@ import br.com.alison.purchases.domain.enums.ClientType;
 import br.com.alison.purchases.domain.enums.PaymentStatus;
 import br.com.alison.purchases.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -40,6 +41,9 @@ public class DBService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public void instantianceTestDatabase() throws ParseException {
         Category category_1 = new Category(null, "Computing");
@@ -101,7 +105,8 @@ public class DBService {
         cityRepository.saveAll(Arrays.asList(city_1, city_2, city_3));
 
         Client client_1 = new Client(null,"Maria Silva", "alison.vizoni@gmail.com", "36378912377",
-                ClientType.LEGAL_PERSON);client_1.getPhoneNumbers().addAll(Arrays.asList("27363323", "93838393"));
+                ClientType.LEGAL_PERSON, passwordEncoder.encode("potato"));
+        client_1.getPhoneNumbers().addAll(Arrays.asList("27363323", "93838393"));
 
         Address address_1 = new Address(null, "Rua Flores", "300", "Apt 203",
                 "Jardim", "38220834", client_1, city_1);
