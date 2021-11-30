@@ -1,11 +1,13 @@
 package br.com.alison.purchases.domain;
 
 import br.com.alison.purchases.domain.enums.ClientType;
+import br.com.alison.purchases.domain.enums.Profile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -30,11 +32,16 @@ public class Client implements Serializable {
     @CollectionTable(name = "phone")
     private Set<String> phoneNumbers = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILES")
+    private Set<Long> profiles = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
     public Client() {
+        addProfile(Profile.CLIENT);
     }
 
     public Client(Long id, String name, String email, String cpfOrCnpj, ClientType clientType, String password) {
@@ -44,6 +51,7 @@ public class Client implements Serializable {
         this.cpfOrCnpj = cpfOrCnpj;
         this.clientType = (clientType == null) ? null : clientType.getCode();
         this.password = password;
+        addProfile(Profile.CLIENT);
     }
 
     public Long getId() {
@@ -120,6 +128,14 @@ public class Client implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void addProfile(Profile profile){
+        profiles.add(profile.getCode());
+    }
+
+    public Set<Profile> getProfiles(){
+        return profiles.stream().map(Profile::toEnum).collect(Collectors.toSet());
     }
 
     @Override
