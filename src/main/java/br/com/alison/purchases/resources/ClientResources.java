@@ -7,6 +7,7 @@ import br.com.alison.purchases.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,14 +29,16 @@ public class ClientResources {
         return ResponseEntity.ok().body(client);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> categories = service.findAll();
         List<ClientDTO> categoriesDTO = categories.stream()
-                .map(client -> new ClientDTO(client)).collect(Collectors.toList());
+                .map(ClientDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(categoriesDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/page")
     public ResponseEntity<Page<ClientDTO>> findPage(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -43,7 +46,7 @@ public class ClientResources {
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction){
         Page<Client> categories = service.findPage(page, linesPerPage, orderBy, direction);
-        Page<ClientDTO> categoriesDTO = categories.map(client -> new ClientDTO(client));
+        Page<ClientDTO> categoriesDTO = categories.map(ClientDTO::new);
         return ResponseEntity.ok().body(categoriesDTO);
     }
 
@@ -64,6 +67,7 @@ public class ClientResources {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);

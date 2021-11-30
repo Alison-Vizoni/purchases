@@ -6,6 +6,7 @@ import br.com.alison.purchases.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -46,6 +47,7 @@ public class CategoryResources {
         return ResponseEntity.ok().body(categoriesDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody  CategoryDTO categoryDTO){
         Category category = service.fromDTO(categoryDTO);
@@ -55,6 +57,7 @@ public class CategoryResources {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody  CategoryDTO categoryDTO, @PathVariable Long id){
         Category category = service.fromDTO(categoryDTO);
@@ -63,6 +66,7 @@ public class CategoryResources {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
