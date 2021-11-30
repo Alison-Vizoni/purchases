@@ -4,10 +4,13 @@ import br.com.alison.purchases.domain.Address;
 import br.com.alison.purchases.domain.City;
 import br.com.alison.purchases.domain.Client;
 import br.com.alison.purchases.domain.enums.ClientType;
+import br.com.alison.purchases.domain.enums.Profile;
 import br.com.alison.purchases.dto.ClientDTO;
 import br.com.alison.purchases.dto.ClientNewDTO;
 import br.com.alison.purchases.repository.AddressRepository;
 import br.com.alison.purchases.repository.ClientRepository;
+import br.com.alison.purchases.security.UserSpringSecurity;
+import br.com.alison.purchases.service.exceptions.AuthorizationException;
 import br.com.alison.purchases.service.exceptions.DataIntegrityException;
 import br.com.alison.purchases.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,13 @@ public class ClientService {
     private AddressRepository addressRepository;
 
     public Client findClientById(Long id){
+
+        UserSpringSecurity userSpringSecurity = UserService.authenticaded();
+        if(userSpringSecurity == null ||
+                !userSpringSecurity.hasRole(Profile.ADMIN) && !id.equals(userSpringSecurity.getId())){
+            throw new AuthorizationException("Access denied");
+        }
+
         Optional<Client> client = repositry.findById(id);
 
         return client.orElseThrow(() -> new ObjectNotFoundException(new StringBuilder()
