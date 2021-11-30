@@ -39,7 +39,7 @@ public class ClientService {
 
     public Client findClientById(Long id){
 
-        UserSpringSecurity userSpringSecurity = UserService.authenticaded();
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if(userSpringSecurity == null ||
                 !userSpringSecurity.hasRole(Profile.ADMIN) && !id.equals(userSpringSecurity.getId())){
             throw new AuthorizationException("Access denied");

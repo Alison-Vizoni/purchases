@@ -1,5 +1,6 @@
 package br.com.alison.purchases.service;
 
+import br.com.alison.purchases.domain.Client;
 import br.com.alison.purchases.domain.Order;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -14,4 +15,6 @@ public interface EmailService {
     void sendOrderConfirmationHtmlEmail(Order order);
 
     void sendHtmlEmail(MimeMessage mimeMessage);
+
+    void sendNewPasswordEmail(Client client, String newPassword);
 }

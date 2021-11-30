@@ -1,5 +1,6 @@
 package br.com.alison.purchases.service;
 
+import br.com.alison.purchases.domain.Client;
 import br.com.alison.purchases.domain.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,5 +66,21 @@ public abstract class AbstractEmailService implements EmailService{
         mimeMessageHelper.setSentDate(new Date(System.currentTimeMillis()));
         mimeMessageHelper.setText(htmlFromTemplateOrder(order), true);
         return mimeMessage;
+    }
+
+    @Override
+    public void sendNewPasswordEmail(Client client, String newPassword){
+        SimpleMailMessage simpleMailMessage = prepareNewPasswordEmail(client, newPassword);
+        sendEmail(simpleMailMessage);
+    }
+
+    protected SimpleMailMessage prepareNewPasswordEmail(Client client, String newPassword) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(client.getEmail());
+        simpleMailMessage.setFrom(sender);
+        simpleMailMessage.setSubject("Solicitação de uma nova senha");
+        simpleMailMessage.setSentDate(new Date(System.currentTimeMillis()));
+        simpleMailMessage.setText("Nova senha: " + newPassword);
+        return simpleMailMessage;
     }
 }

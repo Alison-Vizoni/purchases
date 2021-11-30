@@ -75,7 +75,7 @@ public class OrderService {
     }
 
     public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-        UserSpringSecurity userSpringSecurity = UserService.authenticaded();
+        UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if(userSpringSecurity == null){
             throw new AuthorizationException("Access denied");
         }
