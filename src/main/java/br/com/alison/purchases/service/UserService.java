@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserService {
 
-    public static UserSpringSecurity authenticated(){
+    public static UserSpringSecurity getUserAuthenticated(){
         try {
             return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         } catch (Exception e){
