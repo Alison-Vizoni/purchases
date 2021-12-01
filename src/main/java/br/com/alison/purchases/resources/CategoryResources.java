@@ -47,7 +47,7 @@ public class CategoryResources {
         return ResponseEntity.ok().body(categoriesDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> insert(@Valid @RequestBody  CategoryDTO categoryDTO){
         Category category = service.fromDTO(categoryDTO);
@@ -57,7 +57,7 @@ public class CategoryResources {
         return ResponseEntity.created(uri).build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody  CategoryDTO categoryDTO, @PathVariable Long id){
         Category category = service.fromDTO(categoryDTO);
@@ -66,7 +66,7 @@ public class CategoryResources {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);

@@ -29,7 +29,7 @@ public class ClientResources {
         return ResponseEntity.ok().body(client);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<List<ClientDTO>> findAll(){
         List<Client> categories = service.findAll();
@@ -38,7 +38,7 @@ public class ClientResources {
         return ResponseEntity.ok().body(categoriesDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/page")
     public ResponseEntity<Page<ClientDTO>> findPage(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -67,7 +67,7 @@ public class ClientResources {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
