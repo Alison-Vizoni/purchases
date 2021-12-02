@@ -76,7 +76,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzgzODE3MDB9.Z0fJIP4rzkl8aKHIDAGaenBBsgE5qF-OmqQaCnr1_h-ayWywEUkj0Ae4eSOVI42YdVIwe9v75h3fefKqryFZXA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"update computing\"\n}",
@@ -87,7 +93,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/categories/1",
+					"raw": "http://localhost:8080/categories/8",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -95,7 +101,7 @@
 					"port": "8080",
 					"path": [
 						"categories",
-						"1"
+						"8"
 					]
 				}
 			},
@@ -105,10 +111,16 @@
 			"name": "insert-findAll categories",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzgzODE1NTJ9.AYZWpCWGWaY80qrvUeodqH1uzap6V7aluRoOozDOZDoidfiVscTFYZiP-rWCxEdK9EyCqsUaev0y-YfND_aBnw",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"cama mesa e banho\"\n}",
+					"raw": "{\n    \"name\": \"new Category\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -136,7 +148,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGlzb24udml6b25pQGdtYWlsLmNvbSIsImV4cCI6MTYzODM4MzI1M30.duRNAaXs6PyNbk1XIFQzvIhV1B30Ee4-yVi3i1ynkHhOWzuhl3fi6wdlD63mQ1d2cSKoRZENGKSs8RZMYvh-Ug",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"name\": \"Maria Silva Borges\",\n    \"email\": \"mariaAtualizada@ex.com\"\n}",
@@ -147,7 +165,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/clients/1",
+					"raw": "http://localhost:8080/clients/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -155,7 +173,7 @@
 					"port": "8080",
 					"path": [
 						"clients",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -168,7 +186,13 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGlzb24udml6b25pQGdtYWlsLmNvbSIsImV4cCI6MTYzODM4NDI0OH0.mwkIBxftCkyz0g1qZPvrWSpSe_sE7fS02V4Q_zYPNLCJOOjKnSNoBYq037V7KVzGbMfT8nIpKqTJ72ntinTyog",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -179,15 +203,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/orders/1",
+					"raw": "http://localhost:8080/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"orders",
-						"1"
+						"orders"
 					]
 				}
 			},
@@ -222,13 +245,69 @@
 			"response": []
 		},
 		{
+			"name": "client login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"alison.vizoni@gmail.com\",\n    \"password\": \"potato\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"gabreilfake@gmail.com\",\n    \"password\": \"watermelon\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "insert-findAll client",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Pedro\",\n    \"email\": \"pedro@gmail.com\",\n    \"cpfOrCnpj\": \"42115547004\",\n    \"clientType\": 1,\n    \"street\": \"rua dos testes\",\n    \"number\": \"12\",\n    \"complement\": \"não tem\",\n    \"district\": \"Lugar\",\n    \"postCode\": \"88025466\",\n    \"landline\": \"\",\n    \"phoneNumber\": \"999554466\",\n    \"secondPhoneNumber\": \"\",\n    \"idCity\": 1\n}",
+					"raw": "{\n    \"name\": \"Pedro\",\n    \"email\": \"pedro@gmail.com\",\n    \"cpfOrCnpj\": \"42115547004\",\n    \"clientType\": 1,\n    \"password\": \"potato\",\n    \"street\": \"rua dos testes\",\n    \"number\": \"12\",\n    \"complement\": \"não tem\",\n    \"district\": \"Lugar\",\n    \"postCode\": \"88025466\",\n    \"landline\": \"\",\n    \"phoneNumber\": \"999554466\",\n    \"secondPhoneNumber\": \"\",\n    \"idCity\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -244,6 +323,61 @@
 					"port": "8080",
 					"path": [
 						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh_token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGlzb24udml6b25pQGdtYWlsLmNvbSIsImV4cCI6MTYzODM4NDIwOX0.f96stsMD1joR4SZEa4D6R9vgjCZKg1Y8iVwlmW4XIkbqbw5wlkcGPodXXyWz4e7m1G2rcW2mI9zvhsgLhuO9Aw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/auth/refresh_token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"refresh_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send new password - Forgot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"alison.vizoni@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/forgot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"forgot"
 					]
 				}
 			},
