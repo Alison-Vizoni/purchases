@@ -24,9 +24,9 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
-public class CategoryServiceTest {
+public class CategoryServiceUnitTest {
 
-    private final Logger logger = Logger.getLogger(CategoryServiceTest.class.getName());
+    private final Logger logger = Logger.getLogger(CategoryServiceUnitTest.class.getName());
 
     private Category category;
 
