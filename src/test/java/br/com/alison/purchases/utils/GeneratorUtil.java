@@ -1,5 +1,8 @@
 package br.com.alison.purchases.utils;
 
+import br.com.alison.purchases.domain.Category;
+import br.com.alison.purchases.domain.Product;
+
 import javax.swing.text.MaskFormatter;
 import java.text.ParseException;
 
@@ -21,17 +24,6 @@ public class GeneratorUtil {
         return randomNumber;
     }
 
-    private static String formatField(String value, String inputMask) {
-        try {
-            MaskFormatter mask = new MaskFormatter(inputMask);
-            mask.setValueContainsLiteralCharacters(false);
-            value = mask.valueToString(value);
-        } catch (ParseException e) {
-            System.out.println("Error formatting mask " + e.getMessage());
-        }
-        return value;
-    }
-
     public static String generateCnpj(){
         return formatField(generateNumber(14), "##.###.###/####-##");
     }
@@ -51,13 +43,21 @@ public class GeneratorUtil {
         return city;
     }
 
-    public static String generateCategory() {
+    public static Category generateNewCategory(){
+        return new Category(1L, generateCategoryName());
+    }
+
+    public static String generateCategoryName() {
         String category;
         int index;
         String[] categories = {"Construction material", "Clothes", "Instruments"};
         index = (int) (Math.random() * categories.length);
         category = categories[index];
         return category;
+    }
+
+    public static Product generateNewProduct(){
+        return new Product(1L, "Computer", 2000.00);
     }
 
     public static String generateUF() {
@@ -83,7 +83,18 @@ public class GeneratorUtil {
         return word;
     }
 
-    public static String generateTeleCeluar() {
+    public static String generatePhoneNumber() {
         return formatField("4899" + generateNumber(7), "(##)#####-####");
+    }
+
+    private static String formatField(String value, String inputMask) {
+        try {
+            MaskFormatter mask = new MaskFormatter(inputMask);
+            mask.setValueContainsLiteralCharacters(false);
+            value = mask.valueToString(value);
+        } catch (ParseException e) {
+            System.out.println("Error formatting mask " + e.getMessage());
+        }
+        return value;
     }
 }
