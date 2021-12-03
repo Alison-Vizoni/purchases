@@ -1,6 +1,7 @@
 package br.com.alison.purchases.service;
 
 import br.com.alison.purchases.domain.Category;
+import br.com.alison.purchases.domain.Product;
 import br.com.alison.purchases.repository.CategoryRepository;
 import br.com.alison.purchases.service.exceptions.DataIntegrityException;
 import br.com.alison.purchases.service.exceptions.ObjectNotFoundException;
@@ -16,10 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static br.com.alison.purchases.utils.GeneratorUtil.generateCategory;
-import static br.com.alison.purchases.utils.GeneratorUtil.generateNumber;
+import static br.com.alison.purchases.utils.GeneratorUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
@@ -41,7 +40,7 @@ public class CategoryServiceTest {
     void saveCategoryReturnsCategoryWithId(){
         logger.info("SAVING TEST");
 
-        String name = generateCategory();
+        String name = generateCategoryName();
         category = new Category(null, name);
         Category categoryExpected = new Category(1L, name);
 
@@ -56,8 +55,8 @@ public class CategoryServiceTest {
     @Test
     void findAllCategoriesReturnListCategories(){
         logger.info("FIND ALL CATEGORIES");
-        Category categoryExpected_1 = new Category(1L, generateCategory());
-        Category categoryExpected_2 = new Category(2L, generateCategory());
+        Category categoryExpected_1 = new Category(1L, generateCategoryName());
+        Category categoryExpected_2 = new Category(2L, generateCategoryName());
 
         when(categoryRepository.findAll()).thenReturn(Arrays.asList(categoryExpected_1, categoryExpected_2));
 
@@ -72,7 +71,7 @@ public class CategoryServiceTest {
     void findCategoryByIdReturnCategory(){
         logger.info("FIND CATEGORY BY ID");
 
-        category = new Category(1L, generateCategory());
+        category = generateNewCategory();
         Long idCategory = 1L;
 
         when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
@@ -87,22 +86,23 @@ public class CategoryServiceTest {
         logger.info("FIND CATEGORY BY NON-EXISTING ID ");
         Long idCategory = 1L;
 
-        when(categoryRepository.findById(any(Long.class))).thenThrow(ObjectNotFoundException.class);
+        doThrow(new ObjectNotFoundException("Object not found: Id"))
+                .when(categoryRepository).findById(idCategory);
 
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class,
                 () -> categoryService.findCategoryById(idCategory));
 
-        assertTrue(exception.getMessage().contains("Object not found: Id " + idCategory));
+        assertTrue(exception.getMessage().contains("Object not found"));
     }
 
     @Test
     void updateCategoryReturnCategoryUpdated(){
         logger.info("UPDATE CATEGORY");
 
-        category = new Category(1L, "category name");
+        category = generateNewCategory();
         when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
 
-        String name = generateCategory() + generateNumber(1);
+        String name = generateCategoryName() + generateNumber(1);
         Category categoryExpected = new Category(category.getId(), name);
         Category categoryToUpdate = new Category(1L, name);
 
@@ -112,4 +112,35 @@ public class CategoryServiceTest {
         assertEquals(categoryExpected.getName(), categoryUpdated.getName());
     }
 
+    @Test
+    void deleteCategory(){
+        logger.info("DELETE CATEGORY");
+
+        category = generateNewCategory();
+        when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
+
+        categoryService.delete(category.getId());
+
+        verify(categoryRepository, times(1)).deleteById(category.getId());
+    }
+
+    @Test
+    void deleteCategoryThrowDataIntegrityException(){
+        logger.info("DELETE CATEGORY");
+
+        category = generateNewCategory();
+        Product product = generateNewProduct();
+        category.setProducts(List.of(product));
+        product.setCategories(List.of(category));
+
+        when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
+
+        doThrow(new DataIntegrityException("Cannot delete a category that has products."))
+                .when(categoryRepository).deleteById(category.getId());
+
+        DataIntegrityException exception = assertThrows(DataIntegrityException.class,
+                () -> categoryService.delete(category.getId()));
+
+        assertTrue(exception.getMessage().contains("Cannot delete a category"));
+    }
 }
