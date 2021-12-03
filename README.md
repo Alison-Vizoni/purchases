@@ -1,6 +1,6 @@
 # Purchases
 
-## Objetivos pessoais com o projeto
+## Objetivos pessoal com o projeto
 O meu objetivo deste curso é aprofundar os conhecimentos com spring-boot, Api REST, JPA, testes unitários e integração, deploy no heroku e boas práticas de desenvolvimento.
 
 ## Objetivos do curso com o projeto
