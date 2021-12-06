@@ -38,9 +38,9 @@ public class CategoryService {
     }
 
     public Category update(Category category) {
-        Category newCategory = findCategoryById(category.getId());
-        updateData(newCategory, category);
-        return repositry.save(newCategory);
+        Category categoryToUpdate = findCategoryById(category.getId());
+        updateData(categoryToUpdate, category);
+        return repositry.save(categoryToUpdate);
     }
 
     public void delete(Long id) {
@@ -65,7 +65,7 @@ public class CategoryService {
         return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 
-    private void updateData(Category newCategory, Category category) {
-        newCategory.setName(category.getName());
+    private void updateData(Category categoryToUpdate, Category category) {
+        categoryToUpdate.setName(category.getName());
     }
 }
