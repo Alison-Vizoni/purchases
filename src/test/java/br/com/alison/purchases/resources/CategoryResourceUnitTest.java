@@ -1,40 +1,42 @@
 package br.com.alison.purchases.resources;
 
 import br.com.alison.purchases.domain.Category;
-import br.com.alison.purchases.security.JWTAuthorizationFilter;
+import br.com.alison.purchases.dto.CategoryDTO;
 import br.com.alison.purchases.security.JWTUtil;
 import br.com.alison.purchases.service.CategoryService;
-import static br.com.alison.purchases.utils.GeneratorUtil.*;
-
-import org.hamcrest.Matchers;
+import br.com.alison.purchases.service.exceptions.AuthorizationException;
+import io.restassured.http.ContentType;
+import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import static org.mockito.BDDMockito.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.CoreMatchers.is;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+
+import static br.com.alison.purchases.utils.GeneratorUtil.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = CategoryResources.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -114,21 +116,113 @@ public class CategoryResourceUnitTest {
         reset(categoryService);
     }
 
-// unsolved test
-    @WithMockUser(username = "testAdmin", roles = {"CLIENT", "ADMIN"})
     @Test
-    void givenNewCategory_whenPostCategory_thenReturnJsonId(){
-        logger.info("TEST POST CATEGORY");
+    void givenNewCategory_whenAuthUserValidPostCategory_thenReturnHttpStatusCREATED(){
+        logger.info("TEST POST CATEGORY AUTH USER VALID");
 
         category = generateNewCategory();
+
+        Category categoryFromDTO = new Category(null, category.getName());
+        when(categoryService.fromDTO(any(CategoryDTO.class))).thenReturn(categoryFromDTO);
+
         given(categoryService.insert(any(Category.class))).willReturn(category);
 
+        JSONObject json = new JSONObject();
+        json.put("name", category.getName());
+
         RestAssuredMockMvc.given()
-                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin").roles("CLIENT").roles("ADMIN"))
-                .contentType("application/json")
-                .body("{\"name\": \"new category5454\"}")
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT").roles("ADMIN"))
+                .contentType(ContentType.JSON)
+                .body(json.toString())
                 .when().post("/categories")
                 .then().statusCode(HttpStatus.CREATED.value())
-                .header("Location", Matchers.containsString("/categories/" + category.getId()));
+                .header("Location", containsString("/categories/" + category.getId()));
+    }
+
+    @Test
+    void givenNewCategory_whenAuthUserInvalidPostCategory_thenHttpStatusFORBIDDEN(){
+        logger.info("TEST POST CATEGORY AUTH USER INVALID");
+
+        JSONObject json = new JSONObject();
+        json.put("name", generateCategoryName());
+
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT"))
+                .contentType("application/json")
+                .body(json.toString())
+                .when().post("/categories")
+                .then().statusCode(HttpStatus.FORBIDDEN.value())
+                .header("X-Frame-Options", equalTo("DENY"));
+    }
+
+    @Test
+    void givenCategoryToUpdate_whenAuthUserValidPutCategory_thenHttpStatusNO_CONTENT(){
+        logger.info("TEST PUT CATEGORY AUTH USER VALID");
+
+        category = generateNewCategory();
+        when(categoryService.fromDTO(any(CategoryDTO.class))).thenReturn(category);
+        given(categoryService.update(any(Category.class))).willReturn(category);
+
+        JSONObject json = new JSONObject();
+        json.put("id", category.getId());
+        json.put("name", category.getName());
+
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT").roles("ADMIN"))
+                .contentType(ContentType.JSON)
+                .body(json.toString())
+                .when().put("/categories/" + category.getId())
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void givenCategoryToUpdate_whenAuthUserInvalidPutCategory_thenHttpStatusFORBIDDEN(){
+        logger.info("TEST PUT CATEGORY AUTH USER INVALID");
+
+        category = generateNewCategory();
+        JSONObject json = new JSONObject();
+        json.put("id", category.getId());
+        json.put("name", category.getName());
+
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT"))
+                .contentType(ContentType.JSON)
+                .body(json.toString())
+                .when().put("/categories/" + category.getId())
+                .then().statusCode(HttpStatus.FORBIDDEN.value())
+                .header("X-Frame-Options", equalTo("DENY"));
+    }
+
+    @Test
+    void givenCategoryToDelete_whenAuthUserValidDeleteCategory_thenHttpStatusNO_CONTENT(){
+        logger.info("TEST DELETE CATEGORY AUTH USER VALID");
+
+        category = generateNewCategory();
+        categoryService.delete(anyLong());
+
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT").roles("ADMIN"))
+                .contentType(ContentType.JSON)
+                .when().delete("/categories/" + category.getId())
+                .then().statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    void givenCategoryToDelete_whenAuthUserInalidDeleteCategory_thenHttpStatusFORBIDDEN(){
+        logger.info("TEST DELETE CATEGORY AUTH USER INVALID");
+
+        category = generateNewCategory();
+
+        RestAssuredMockMvc.given()
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                        .roles("CLIENT"))
+                .contentType(ContentType.JSON)
+                .when().delete("/categories/" + category.getId())
+                .then().statusCode(HttpStatus.FORBIDDEN.value());
     }
 }
