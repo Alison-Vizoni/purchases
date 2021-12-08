@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -48,6 +47,7 @@ public abstract class AbstractEmailService implements EmailService{
         return templateEngine.process("email/orderConfirmation", context);
     }
 
+    @Override
     public void sendOrderConfirmationHtmlEmail(Order order){
         try {
             MimeMessage mimeMessage = prepareMimeMessageFromOrder(order);
