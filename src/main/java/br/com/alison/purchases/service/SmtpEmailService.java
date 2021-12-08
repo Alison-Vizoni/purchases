@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 
+@Service
 public class SmtpEmailService extends AbstractEmailService{
 
     @Autowired
@@ -17,7 +19,7 @@ public class SmtpEmailService extends AbstractEmailService{
     @Autowired
     private JavaMailSender javaMailSender;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MockEmailService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
 
     @Override
     public void sendEmail(SimpleMailMessage simpleMailMessage) {
