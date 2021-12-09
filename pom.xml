@@ -117,6 +117,12 @@
 			<version>1.12.81</version>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
