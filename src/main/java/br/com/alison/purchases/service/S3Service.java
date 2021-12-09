@@ -1,7 +1,6 @@
 package br.com.alison.purchases.service;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
+import br.com.alison.purchases.service.exceptions.FileException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -36,7 +34,7 @@ public class S3Service {
             String contentType = multipartFile.getContentType();
             return uploadFile(inputStream, fileName, contentType);
         } catch (IOException e) {
-            throw new RuntimeException("IO error: " + e.getMessage());
+            throw new FileException("IO error: " + e.getMessage());
         }
     }
 
@@ -47,7 +45,7 @@ public class S3Service {
             s3client.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata));
             return s3client.getUrl(bucketName, fileName).toURI();
         } catch (URISyntaxException e) {
-            throw new RuntimeException("Error to convert URI from URL");
+            throw new FileException("Error to convert URI from URL");
         }
     }
 }
