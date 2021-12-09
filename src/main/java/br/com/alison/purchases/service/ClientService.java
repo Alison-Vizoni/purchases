@@ -53,8 +53,6 @@ public class ClientService {
     @Value("${img.profile.size}")
     private Integer size;
 
-
-
     public Client findClientById(Long id){
 
         UserSpringSecurity userSpringSecurity = UserService.getUserAuthenticated();
@@ -97,6 +95,25 @@ public class ClientService {
 
     public List<Client> findAll() {
         return repositry.findAll();
+    }
+
+    public Client findByEmail(String email){
+        UserSpringSecurity userSpringSecurity = UserService.getUserAuthenticated();
+        if(userSpringSecurity == null || !userSpringSecurity.hasRole(Profile.ADMIN) &&
+                !email.equals(userSpringSecurity.getUsername())){
+            throw new AuthorizationException("Access denied");
+        }
+
+        Client client = repositry.findByEmail(email);
+
+        if(client == null){
+            throw new ObjectNotFoundException(new StringBuilder()
+                    .append("Object not found! Id: ")
+                    .append(userSpringSecurity.getId())
+                    .append(", type: ")
+                    .append(Client.class.getName()).toString());
+        }
+        return client;
     }
 
     public Page<Client> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
