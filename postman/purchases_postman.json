@@ -79,7 +79,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzgzODE3MDB9.Z0fJIP4rzkl8aKHIDAGaenBBsgE5qF-OmqQaCnr1_h-ayWywEUkj0Ae4eSOVI42YdVIwe9v75h3fefKqryFZXA",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzkxNjQ5ODV9.RrqGTVtgSnE4_BsVcoESEg8VerfxszUQvzxxVz-uAl989AdFu_kQORyTdwAMAVKQOVq7hcUu8uR7CDV3X_6f9g",
 						"type": "text"
 					}
 				],
@@ -93,7 +93,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/categories/8",
+					"raw": "http://localhost:8080/categories/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -101,7 +101,7 @@
 					"port": "8080",
 					"path": [
 						"categories",
-						"8"
+						"7"
 					]
 				}
 			},
@@ -114,7 +114,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzgzODE1NTJ9.AYZWpCWGWaY80qrvUeodqH1uzap6V7aluRoOozDOZDoidfiVscTFYZiP-rWCxEdK9EyCqsUaev0y-YfND_aBnw",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzkxNjU1NTR9.5Ub0iLYNbtnC4BQKuq2mE4_4eP0LgBsiiyZx9uFqyV8b63G95uhyzYMJnHAk-CF7dtRYZXB27TratuDt9Pue3g",
 						"type": "text"
 					}
 				],
@@ -151,7 +151,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGlzb24udml6b25pQGdtYWlsLmNvbSIsImV4cCI6MTYzODM4MzI1M30.duRNAaXs6PyNbk1XIFQzvIhV1B30Ee4-yVi3i1ynkHhOWzuhl3fi6wdlD63mQ1d2cSKoRZENGKSs8RZMYvh-Ug",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzkxNjQzNTl9.4jJRxaoJ0QiSNRvyqPYstMNJmW-Y3FQxH_6dtlGbQ0wgS-BigZNMcoBF7L8Pds-IByPknzQh2AjpAD98xQR9yQ",
 						"type": "text"
 					}
 				],
@@ -165,7 +165,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/clients/2",
+					"raw": "http://localhost:8080/clients/20",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -173,7 +173,7 @@
 					"port": "8080",
 					"path": [
 						"clients",
-						"2"
+						"20"
 					]
 				}
 			},
@@ -273,6 +273,55 @@
 			"response": []
 		},
 		{
+			"name": "find client by email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJnYWJyZWlsZmFrZUBnbWFpbC5jb20iLCJleHAiOjE2MzkxNjA2MjJ9.g_fY-jK5cmcYuYevFOOsVZPaBUVqsMAMP9XvzLszjfvIh2SrvDPd_uVRA0_f9les8VimPvhnlmtz78OLHHeSrw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/clients/email?emailValue=gabreilfake@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clients",
+						"email"
+					],
+					"query": [
+						{
+							"key": "Auth",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "emailValue",
+							"value": "gabreilfake@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "admin login",
 			"request": {
 				"method": "POST",
@@ -329,6 +378,45 @@
 			"response": []
 		},
 		{
+			"name": "insert a image",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGlzb24udml6b25pQGdtYWlsLmNvbSIsImV4cCI6MTYzOTE1NzU3Mn0.dt9zYNnlk39dIgDgAv4mTrwRHpJEUIIPpaLGgY-aDPVNPLwlEVLTCEIPWvm0tSKOBH-LwVX11Nq51CM-dEW_ww",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/alison/Imagens/Captura de tela de 2021-10-26 14-57-04.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/clients/picture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"clients",
+						"picture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "refresh_token",
 			"request": {
 				"method": "POST",
@@ -378,6 +466,46 @@
 					"path": [
 						"auth",
 						"forgot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find state",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/states",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find cities by state",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/states/1/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"states",
+						"1",
+						"cities"
 					]
 				}
 			},
