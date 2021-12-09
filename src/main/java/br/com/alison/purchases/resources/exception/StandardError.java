@@ -3,15 +3,28 @@ package br.com.alison.purchases.resources.exception;
 import java.io.Serializable;
 
 public class StandardError implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    private Long timestamp;
     private Integer status;
+    private String error;
     private String message;
-    private Long timeStamp;
+    private String path;
 
-    public StandardError(Integer status, String message, Long timeStamp) {
+    public StandardError(Long timestamp, Integer status, String error, String message, String path) {
+        this.timestamp = timestamp;
         this.status = status;
+        this.error = error;
         this.message = message;
-        this.timeStamp = timeStamp;
+        this.path = path;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public Integer getStatus() {
@@ -22,6 +35,14 @@ public class StandardError implements Serializable {
         this.status = status;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -30,11 +51,11 @@ public class StandardError implements Serializable {
         this.message = message;
     }
 
-    public Long getTimeStamp() {
-        return timeStamp;
+    public String getPath() {
+        return path;
     }
 
-    public void setTimeStamp(Long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setPath(String path) {
+        this.path = path;
     }
 }
