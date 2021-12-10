@@ -4,13 +4,11 @@ import br.com.alison.purchases.domain.Category;
 import br.com.alison.purchases.dto.CategoryDTO;
 import br.com.alison.purchases.security.JWTUtil;
 import br.com.alison.purchases.service.CategoryService;
-import br.com.alison.purchases.service.exceptions.AuthorizationException;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
@@ -28,7 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static br.com.alison.purchases.utils.GeneratorUtil.*;
+import static br.com.alison.purchases.utils.GeneratorUtil.generateCategoryName;
+import static br.com.alison.purchases.utils.GeneratorUtil.generateNewCategory;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsString;
@@ -38,11 +36,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(value = CategoryResources.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
-public class CategoryResourceUnitTest {
+@WebMvcTest(value = CategoryResources.class)
+public class CategoryResourceIntegrationTest {
 
-    private final Logger logger = Logger.getLogger(CategoryResourceUnitTest.class.getName());
+    private final Logger logger = Logger.getLogger(CategoryResourceIntegrationTest.class.getName());
 
     private Category category;
 
@@ -213,7 +210,7 @@ public class CategoryResourceUnitTest {
     }
 
     @Test
-    void givenCategoryToDelete_whenAuthUserInalidDeleteCategory_thenHttpStatusFORBIDDEN(){
+    void givenCategoryToDelete_whenAuthUserInvalidDeleteCategory_thenHttpStatusFORBIDDEN(){
         logger.info("TEST DELETE CATEGORY AUTH USER INVALID");
 
         category = generateNewCategory();
