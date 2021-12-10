@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -37,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = CategoryResources.class)
-public class CategoryResourceIntegrationTest {
+public class CategoryResourceIntegrationMockTest {
 
-    private final Logger logger = Logger.getLogger(CategoryResourceIntegrationTest.class.getName());
+    private final Logger LOG = Logger.getLogger(CategoryResourceIntegrationMockTest.class.getName());
 
     private Category category;
 
@@ -59,7 +58,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategories_whenGetAllCategories_thenReturnJsonArray() throws Exception {
-        logger.info("TEST GET ALL CATEGORIES");
+        LOG.info("TEST GET ALL CATEGORIES");
 
         category = generateNewCategory();
         Category category_1 = new Category(2L, generateCategoryName());
@@ -79,7 +78,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategory_whenGetCategoryById_thenReturnJson() throws Exception {
-        logger.info("TEST GET CATEGORY BY ID");
+        LOG.info("TEST GET CATEGORY BY ID");
 
         category = generateNewCategory();
         given(categoryService.findCategoryById(anyLong())).willReturn(category);
@@ -95,7 +94,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void evaluatesCategoryPageableParameters() throws Exception {
-        logger.info("TEST GET ALL CATEGORIES WITH PAGEABLE PARAMETERS");
+        LOG.info("TEST GET ALL CATEGORIES WITH PAGEABLE PARAMETERS");
 
         List<Category> categories = new ArrayList<>();
         Page<Category> categoryPage = new PageImpl<>(categories);
@@ -115,7 +114,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenNewCategory_whenAuthUserValidPostCategory_thenReturnHttpStatusCREATED(){
-        logger.info("TEST POST CATEGORY AUTH USER VALID");
+        LOG.info("TEST POST CATEGORY AUTH USER VALID");
 
         category = generateNewCategory();
 
@@ -139,13 +138,13 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenNewCategory_whenAuthUserInvalidPostCategory_thenHttpStatusFORBIDDEN(){
-        logger.info("TEST POST CATEGORY AUTH USER INVALID");
+        LOG.info("TEST POST CATEGORY AUTH USER INVALID");
 
         JSONObject json = new JSONObject();
         json.put("name", generateCategoryName());
 
         RestAssuredMockMvc.given()
-                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("test@email.com").password("test123")
                         .roles("CLIENT"))
                 .contentType("application/json")
                 .body(json.toString())
@@ -156,7 +155,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategoryToUpdate_whenAuthUserValidPutCategory_thenHttpStatusNO_CONTENT(){
-        logger.info("TEST PUT CATEGORY AUTH USER VALID");
+        LOG.info("TEST PUT CATEGORY AUTH USER VALID");
 
         category = generateNewCategory();
         when(categoryService.fromDTO(any(CategoryDTO.class))).thenReturn(category);
@@ -177,7 +176,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategoryToUpdate_whenAuthUserInvalidPutCategory_thenHttpStatusFORBIDDEN(){
-        logger.info("TEST PUT CATEGORY AUTH USER INVALID");
+        LOG.info("TEST PUT CATEGORY AUTH USER INVALID");
 
         category = generateNewCategory();
         JSONObject json = new JSONObject();
@@ -185,7 +184,7 @@ public class CategoryResourceIntegrationTest {
         json.put("name", category.getName());
 
         RestAssuredMockMvc.given()
-                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("test@email.com").password("test123")
                         .roles("CLIENT"))
                 .contentType(ContentType.JSON)
                 .body(json.toString())
@@ -196,7 +195,7 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategoryToDelete_whenAuthUserValidDeleteCategory_thenHttpStatusNO_CONTENT(){
-        logger.info("TEST DELETE CATEGORY AUTH USER VALID");
+        LOG.info("TEST DELETE CATEGORY AUTH USER VALID");
 
         category = generateNewCategory();
         categoryService.delete(anyLong());
@@ -211,12 +210,12 @@ public class CategoryResourceIntegrationTest {
 
     @Test
     void givenCategoryToDelete_whenAuthUserInvalidDeleteCategory_thenHttpStatusFORBIDDEN(){
-        logger.info("TEST DELETE CATEGORY AUTH USER INVALID");
+        LOG.info("TEST DELETE CATEGORY AUTH USER INVALID");
 
         category = generateNewCategory();
 
         RestAssuredMockMvc.given()
-                .auth().with(SecurityMockMvcRequestPostProcessors.user("testAdmin@email.com").password("test123")
+                .auth().with(SecurityMockMvcRequestPostProcessors.user("test@email.com").password("test123")
                         .roles("CLIENT"))
                 .contentType(ContentType.JSON)
                 .when().delete("/categories/" + category.getId())

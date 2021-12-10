@@ -26,7 +26,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(SpringExtension.class)
 public class CategoryServiceUnitTest {
 
-    private final Logger logger = Logger.getLogger(CategoryServiceUnitTest.class.getName());
+    private final Logger LOG = Logger.getLogger(CategoryServiceUnitTest.class.getName());
 
     private Category category;
 
@@ -37,8 +37,8 @@ public class CategoryServiceUnitTest {
     private CategoryService categoryService;
 
     @Test
-    void saveCategoryReturnsCategoryWithId(){
-        logger.info("SAVING TEST");
+    void whenSaveCategory_thenReturnsCategoryWithId(){
+        LOG.info("TEST SAVING");
 
         String name = generateCategoryName();
         category = new Category(null, name);
@@ -53,8 +53,8 @@ public class CategoryServiceUnitTest {
     }
 
     @Test
-    void findAllCategoriesReturnListCategories(){
-        logger.info("FIND ALL CATEGORIES");
+    void whenFindAllCategories_thenReturnListCategories(){
+        LOG.info("TEST FIND ALL CATEGORIES");
         Category categoryExpected_1 = new Category(1L, generateCategoryName());
         Category categoryExpected_2 = new Category(2L, generateCategoryName());
 
@@ -68,22 +68,21 @@ public class CategoryServiceUnitTest {
     }
 
     @Test
-    void findCategoryByIdReturnCategory(){
-        logger.info("FIND CATEGORY BY ID");
+    void whenFindCategoryById_thenReturnCategory(){
+        LOG.info("TEST FIND CATEGORY BY ID");
 
         category = generateNewCategory();
-        Long idCategory = 1L;
 
         when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
-        Optional<Category> categoryFound = Optional.ofNullable(categoryService.findCategoryById(idCategory));
+        Optional<Category> categoryFound = Optional.ofNullable(categoryService.findCategoryById(category.getId()));
 
         assertTrue(categoryFound.isPresent());
         assertSame(categoryFound.get(), category);
     }
 
     @Test
-    void findCategoryByIdThrowObjectNotFoundException(){
-        logger.info("FIND CATEGORY BY NON-EXISTING ID ");
+    void whenFindCategoryById_thenThrowObjectNotFoundException(){
+        LOG.info("TEST FIND CATEGORY BY NON-EXISTING ID");
         Long idCategory = 1L;
 
         doThrow(new ObjectNotFoundException("Object not found: Id"))
@@ -96,8 +95,8 @@ public class CategoryServiceUnitTest {
     }
 
     @Test
-    void updateCategoryReturnCategoryUpdated(){
-        logger.info("UPDATE CATEGORY");
+    void whenUpdateCategory_thenReturnCategoryUpdated(){
+        LOG.info("TEST UPDATE CATEGORY");
 
         category = generateNewCategory();
         when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
@@ -114,7 +113,7 @@ public class CategoryServiceUnitTest {
 
     @Test
     void deleteCategory(){
-        logger.info("DELETE CATEGORY");
+        LOG.info("TEST DELETE CATEGORY");
 
         category = generateNewCategory();
         when(categoryRepository.findById(any(Long.class))).thenReturn(Optional.of(category));
@@ -125,8 +124,8 @@ public class CategoryServiceUnitTest {
     }
 
     @Test
-    void deleteCategoryThrowDataIntegrityException(){
-        logger.info("DELETE CATEGORY");
+    void whenDeleteCategoryWithProducts_thenThrowDataIntegrityException(){
+        LOG.info("TEST DELETE CATEGORY");
 
         category = generateNewCategory();
         Product product = generateNewProduct();
